@@ -34,6 +34,9 @@ const CHANNELS = [
     "update-downloaded",
     "userDownloadCompleted",
     "userDownloadOpen",
+    "minimize",
+    "maximize",
+    "close"
 ];
 
 contextBridge.exposeInMainWorld(

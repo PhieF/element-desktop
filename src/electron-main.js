@@ -821,8 +821,10 @@ protocol.registerSchemesAsPrivileged([{
 // window (no matter how temporary it may be) is also sandboxed, allowing for a clean
 // transition into the user's browser.
 app.enableSandbox();
+app.disableHardwareAcceleration();
 
 app.on('ready', async () => {
+	
     try {
         await setupGlobals();
         await moveAutoLauncher();
@@ -835,7 +837,7 @@ app.on('ready', async () => {
         // when we want the actual error to be as obvious as possible).
         return;
     }
-
+setTimeout(() => {
     if (argv['devtools']) {
         try {
             const { default: installExt, REACT_DEVELOPER_TOOLS, REACT_PERF } = require('electron-devtools-installer');
@@ -920,12 +922,12 @@ app.on('ready', async () => {
     const preloadScript = path.normalize(`${__dirname}/preload.js`);
     mainWindow = global.mainWindow = new BrowserWindow({
         // https://www.electronjs.org/docs/faq#the-font-looks-blurry-what-is-this-and-what-can-i-do
-        backgroundColor: '#fff',
-
         icon: iconPath,
         show: false,
+	    transparent:true,
+		backgroundColor: "#00ffffff",
+		frame: false,
         autoHideMenuBar: store.get('autoHideMenuBar', true),
-
         x: mainWindowState.x,
         y: mainWindowState.y,
         width: mainWindowState.width,
@@ -939,6 +941,8 @@ app.on('ready', async () => {
             webgl: false,
         },
     });
+           // mainWindow.webContents.openDevTools({mode:'undocked'})
+
     mainWindow.loadURL('vector://vector/webapp/');
     Menu.setApplicationMenu(vectorMenu);
 
@@ -989,7 +993,23 @@ app.on('ready', async () => {
     }
 
     webContentsHandler(mainWindow.webContents);
+},50)
 });
+
+ipcMain.on('minimize', () => {
+  mainWindow.minimize()
+})
+
+ipcMain.on('close', () => {
+  mainWindow.hide();
+})
+
+ipcMain.on('maximize', () => {
+  if(mainWindow.isMaximized())
+    mainWindow.unmaximize();
+  else
+    mainWindow.maximize();
+})
 
 app.on('window-all-closed', () => {
     app.quit();
