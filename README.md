@@ -65,7 +65,7 @@ yarn run build:native
 ```
 
 On Windows, this will automatically determine the architecture to build for based
-on the environment (ie. set up by vcvarsall.bat).
+on the environment. Make sure that you have all the [tools required to perform the native modules build](docs/windows-requirements.md)
 
 Now you can build the package:
 
@@ -147,6 +147,15 @@ In the paths above, `$NAME` is typically `Element`, unless you use `--profile
 $PROFILE` in which case it becomes `Element-$PROFILE`, or it is using one of
 the above created by a pre-1.7 install, in which case it will be `Riot` or
 `Riot-$PROFILE`.
+
+Translations
+==========================
+
+To add a new translation, head to the [translating doc](https://github.com/vector-im/element-web/blob/develop/docs/translating.md).
+
+For a developer guide, see the [translating dev doc](https://github.com/vector-im/element-web/blob/develop/docs/translating-dev.md).
+
+[<img src="https://translate.element.io/widgets/element-desktop/-/multi-auto.svg" alt="translationsstatus" width="340">](https://translate.element.io/engage/element-desktop/?utm_source=widget)
 
 Report bugs & give feedback
 ==========================

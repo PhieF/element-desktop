@@ -1,3 +1,117 @@
+Changes in [1.7.30](https://github.com/vector-im/element-desktop/releases/tag/v1.7.30) (2021-06-07)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.30-rc.1...v1.7.30)
+
+ * No changes since rc.1
+
+Changes in [1.7.30-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.30-rc.1) (2021-06-01)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.29...v1.7.30-rc.1)
+
+ * Translations update from Weblate
+   [\#199](https://github.com/vector-im/element-desktop/pull/199)
+ * Migrate to `eslint-plugin-matrix-org`
+   [\#197](https://github.com/vector-im/element-desktop/pull/197)
+ * Upgrade to Electron 12.0.9
+   [\#198](https://github.com/vector-im/element-desktop/pull/198)
+
+Changes in [1.7.29](https://github.com/vector-im/element-desktop/releases/tag/v1.7.29) (2021-05-24)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.29-rc.1...v1.7.29)
+
+ * No changes since rc.1
+
+Changes in [1.7.29-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.29-rc.1) (2021-05-19)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.28...v1.7.29-rc.1)
+
+ * Translations update from Weblate
+   [\#196](https://github.com/vector-im/element-desktop/pull/196)
+ * Translations update from Weblate
+   [\#195](https://github.com/vector-im/element-desktop/pull/195)
+
+Changes in [1.7.28](https://github.com/vector-im/element-desktop/releases/tag/v1.7.28) (2021-05-17)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.28-rc.1...v1.7.28)
+
+ * No changes since rc.1
+
+Changes in [1.7.28-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.28-rc.1) (2021-05-11)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.27...v1.7.28-rc.1)
+
+ * Add Windows native module requirements
+   [\#190](https://github.com/vector-im/element-desktop/pull/190)
+ * Prevent black screen when closing window while in full screen mode on macOS
+   [\#192](https://github.com/vector-im/element-desktop/pull/192)
+
+Changes in [1.7.27](https://github.com/vector-im/element-desktop/releases/tag/v1.7.27) (2021-05-10)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.27-rc.1...v1.7.27)
+
+ * No changes since rc.1
+
+Changes in [1.7.27-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.27-rc.1) (2021-05-04)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.26...v1.7.27-rc.1)
+
+ * Translations update from Weblate
+   [\#191](https://github.com/vector-im/element-desktop/pull/191)
+ * Bump ssri from 6.0.1 to 6.0.2
+   [\#187](https://github.com/vector-im/element-desktop/pull/187)
+ * Disables HardwareMediaKeyHandling
+   [\#180](https://github.com/vector-im/element-desktop/pull/180)
+ * Translations update from Weblate
+   [\#189](https://github.com/vector-im/element-desktop/pull/189)
+ * Add internationalisation support
+   [\#188](https://github.com/vector-im/element-desktop/pull/188)
+ * Fix event index passphrase change process
+   [\#186](https://github.com/vector-im/element-desktop/pull/186)
+
+Changes in [1.7.26](https://github.com/vector-im/element-desktop/releases/tag/v1.7.26) (2021-04-26)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.26-rc.1...v1.7.26)
+
+ * No changes since rc.1
+
+Changes in [1.7.26-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.26-rc.1) (2021-04-21)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.25...v1.7.26-rc.1)
+
+ * Remove Debian dependency libappindicator3-1
+   [\#170](https://github.com/vector-im/element-desktop/pull/170)
+ * Fix exit shortcuts for non QWERTY keyboards
+   [\#185](https://github.com/vector-im/element-desktop/pull/185)
+ * Fix using yarn run fetch with a specific version
+   [\#182](https://github.com/vector-im/element-desktop/pull/182)
+ * Switch nightly to not-staging Scalar by default
+   [\#181](https://github.com/vector-im/element-desktop/pull/181)
+
+Changes in [1.7.25](https://github.com/vector-im/element-desktop/releases/tag/v1.7.25) (2021-04-12)
+===================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.25-rc.1...v1.7.25)
+
+ * No changes since rc.1
+
+Changes in [1.7.25-rc.1](https://github.com/vector-im/element-desktop/releases/tag/v1.7.25-rc.1) (2021-04-07)
+=============================================================================================================
+[Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.24...v1.7.25-rc.1)
+
+ * Fix disabling spellchecker
+   [\#179](https://github.com/vector-im/element-desktop/pull/179)
+ * Upgrade to Electron 12.0.2
+   [\#178](https://github.com/vector-im/element-desktop/pull/178)
+ * Avoid exit listener to hijack other application shortcuts
+   [\#177](https://github.com/vector-im/element-desktop/pull/177)
+ * Migrate native-node-modules docs to element-desktop
+   [\#176](https://github.com/vector-im/element-desktop/pull/176)
+ * Add prompt to warn before quitting the application
+   [\#173](https://github.com/vector-im/element-desktop/pull/173)
+ * Upgrade to Electron 11.4.1
+   [\#172](https://github.com/vector-im/element-desktop/pull/172)
+ * Fix docker:build:native documentation typo
+   [\#174](https://github.com/vector-im/element-desktop/pull/174)
+
 Changes in [1.7.24](https://github.com/vector-im/element-desktop/releases/tag/v1.7.24) (2021-03-29)
 ===================================================================================================
 [Full Changelog](https://github.com/vector-im/element-desktop/compare/v1.7.24-rc.1...v1.7.24)
