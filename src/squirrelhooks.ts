@@ -14,12 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const path = require('path');
-const spawn = require('child_process').spawn;
-const { app } = require('electron');
-const fsProm = require('fs').promises;
+import path from "path";
+import { spawn } from "child_process";
+import { app } from "electron";
+import { promises as fsProm } from "fs";
 
-function runUpdateExe(args) {
+function runUpdateExe(args: string[]): Promise<void> {
     // Invokes Squirrel's Update.exe which will do things for us like create shortcuts
     // Note that there's an Update.exe in the app-x.x.x directory and one in the parent
     // directory: we need to run the one in the parent directory, because it discovers
@@ -28,20 +28,18 @@ function runUpdateExe(args) {
     console.log(`Spawning '${updateExe}' with args '${args}'`);
     return new Promise(resolve => {
         spawn(updateExe, args, {
-          detached: true,
+            detached: true,
         }).on('close', resolve);
     });
 }
 
-function checkSquirrelHooks() {
+function checkSquirrelHooks(): boolean {
     if (process.platform !== 'win32') return false;
 
     const cmd = process.argv[1];
     const target = path.basename(process.execPath);
     if (cmd === '--squirrel-install' || cmd === '--squirrel-updated') {
-        Promise.resolve().then(() => {
-            return runUpdateExe(['--createShortcut=' + target]);
-        }).then(() => {
+        runUpdateExe(['--createShortcut=' + target]).then(() => {
             // remove the old 'Riot' shortcuts, if they exist (update.exe --removeShortcut doesn't work
             // because it always uses the name of the product as the name of the shortcut: the only variable
             // is what executable you're linking to)
@@ -83,4 +81,6 @@ function checkSquirrelHooks() {
     return false;
 }
 
-module.exports = checkSquirrelHooks;
+if (checkSquirrelHooks()) {
+    process.exit(1);
+}

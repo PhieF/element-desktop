@@ -17,37 +17,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Squirrel on windows starts the app with various flags
-// as hooks to tell us when we've been installed/uninstalled
-// etc.
-const checkSquirrelHooks = require('./squirrelhooks');
-if (checkSquirrelHooks()) return;
+// Squirrel on windows starts the app with various flags as hooks to tell us when we've been installed/uninstalled etc.
+import "./squirrelhooks";
+import { app, ipcMain, powerSaveBlocker, BrowserWindow, Menu, autoUpdater, protocol, dialog } from "electron";
+import AutoLaunch from "auto-launch";
+import path from "path";
+import windowStateKeeper from 'electron-window-state';
+import Store from 'electron-store';
+import fs, { promises as afs } from "fs";
+import crypto from "crypto";
+import { URL } from "url";
+import minimist from "minimist";
 
-const argv = require('minimist')(process.argv, {
+import * as tray from "./tray";
+import { buildMenuTemplate } from './vectormenu';
+import webContentsHandler from './webcontents-handler';
+import * as updater from './updater';
+import { getProfileFromDeeplink, protocolInit, recordSSOSession } from './protocol';
+import { _t, AppLocalization } from './language-helper';
+
+const argv = minimist(process.argv, {
     alias: { help: "h" },
 });
 
-const {
-    app, ipcMain, powerSaveBlocker, BrowserWindow, Menu, autoUpdater, protocol, dialog,
-} = require('electron');
-const AutoLaunch = require('auto-launch');
-const path = require('path');
-
-const tray = require('./tray');
-const buildMenuTemplate = require('./vectormenu');
-const webContentsHandler = require('./webcontents-handler');
-const updater = require('./updater');
-const { getProfileFromDeeplink, protocolInit, recordSSOSession } = require('./protocol');
-
-const windowStateKeeper = require('electron-window-state');
-const Store = require('electron-store');
-
-const fs = require('fs');
-const afs = fs.promises;
-
-const crypto = require('crypto');
 let keytar;
 try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     keytar = require('keytar');
 } catch (e) {
     if (e.code === "MODULE_NOT_FOUND") {
@@ -57,14 +52,13 @@ try {
     }
 }
 
-const { _t, AppLocalization } = require('./language-helper');
-
 let seshatSupported = false;
 let Seshat;
 let SeshatRecovery;
 let ReindexError;
 
 try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const seshatModule = require('matrix-seshat');
     Seshat = seshatModule.Seshat;
     SeshatRecovery = seshatModule.SeshatRecovery;
@@ -181,6 +175,7 @@ async function setupGlobals() {
     ]);
 
     try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         vectorConfig = require(asarPath + 'config.json');
     } catch (e) {
         // it would be nice to check the error code here and bail if the config
@@ -192,6 +187,7 @@ async function setupGlobals() {
 
     try {
         // Load local config and use it to override values from the one baked with the build
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const localConfig = require(path.join(app.getPath('userData'), 'config.json'));
 
         // If the local config has a homeserver defined, don't use the homeserver from the build
@@ -207,6 +203,16 @@ async function setupGlobals() {
 
         vectorConfig = Object.assign(vectorConfig, localConfig);
     } catch (e) {
+        if (e instanceof SyntaxError) {
+            dialog.showMessageBox({
+                type: "error",
+                title: `Your ${vectorConfig.brand || 'Element'} is misconfigured`,
+                message: `Your custom ${vectorConfig.brand || 'Element'} configuration contains invalid JSON. ` +
+                         `Please correct the problem and reopen ${vectorConfig.brand || 'Element'}.`,
+                detail: e.message || "",
+            });
+        }
+
         // Could not load local config, this is expected in most cases.
     }
 
@@ -249,7 +255,13 @@ async function moveAutoLauncher() {
 }
 
 const eventStorePath = path.join(app.getPath('userData'), 'EventStore');
-const store = new Store({ name: "electron-config" });
+const store = new Store<{
+    warnBeforeExit?: boolean;
+    minimizeToTray?: boolean;
+    spellCheckerEnabled?: boolean;
+    autoHideMenuBar?: boolean;
+    locale?: string | string[];
+}>({ name: "electron-config" });
 
 let eventIndex = null;
 
@@ -264,7 +276,8 @@ const exitShortcuts = [
 
 const warnBeforeExit = (event, input) => {
     const shouldWarnBeforeExit = store.get('warnBeforeExit', true);
-    const exitShortcutPressed = exitShortcuts.some(shortcutFn => shortcutFn(input, process.platform));
+    const exitShortcutPressed =
+        input.type === 'keyDown' && exitShortcuts.some(shortcutFn => shortcutFn(input, process.platform));
 
     if (shouldWarnBeforeExit && exitShortcutPressed) {
         const shouldCancelCloseRequest = dialog.showMessageBoxSync(mainWindow, {
@@ -823,6 +836,7 @@ app.on('ready', async () => {
 setTimeout(() => {
     if (argv['devtools']) {
         try {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const { default: installExt, REACT_DEVELOPER_TOOLS, REACT_PERF } = require('electron-devtools-installer');
             installExt(REACT_DEVELOPER_TOOLS)
                 .then((name) => console.log(`Added Extension: ${name}`))
@@ -1025,7 +1039,7 @@ function beforeQuit() {
 }
 
 app.on('before-quit', beforeQuit);
-app.on('before-quit-for-update', beforeQuit);
+autoUpdater.on('before-quit-for-update', beforeQuit);
 
 app.on('second-instance', (ev, commandLine, workingDirectory) => {
     // If other instance launched with --hidden then skip showing window
